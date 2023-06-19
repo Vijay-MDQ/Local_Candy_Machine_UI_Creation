@@ -14,19 +14,94 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import GGV from '../assets/GGVLOGO.png';
 import { useNavigate } from 'react-router-dom';
+import { useState , useEffect } from 'react';
+import { get_all_user_profile_type, user_sign_up } from '../API_Service/API_Service';
+import axios from 'axios';
+import { Autocomplete } from '@mui/material';
+import { appendData } from '../Variables/ProcessVariable';
 
-export default function SignUp() {
+export default function SignUpForm() {
+ 
+    const[options, setOptions] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState("");
+    const [status, setStatus] = useState();
+    const [color, setColor] = useState();
+    const [profile, setProfile] = useState("");
+    const navigate = useNavigate();
+
+    const [formData , setFormData] = useState({});
+
+    useEffect(() => {
+            axios({
+                method: 'GET',
+                url: get_all_user_profile_type,
+            })
+                .then((res) => {
+                    if (res.data.error) {
+                        setMessage(res.data.message);
+                        setOpen(true);
+                        setStatus(false);
+                        setColor(false);
+                    } else {
+                        setMessage(res.data.message);
+                        setOptions(res.data.data);
+                        setOpen(true);
+                        setStatus(true);
+                        setColor(true);
+                        navigate('/')
+                    }
+                })
+                .catch((err) => {
+                    alert("Oops something went wrong " + err);
+                    console.log("chip2", err);
+                });
+    }, []);
+    
+
+    const handleChange = (e) =>{
+        const {name , value} = e.target;
+        setFormData({...formData, [name]:value});
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const obj = {
+        UserName: formData.firstName,
+        UserPhone: formData.PhoneNumber,
+        UserMail: formData.email,
+        UserAddress: formData.Address_Line,
+        UserCity: formData.City,
+        UserState: formData.State,
+        UserPostalCode: formData.Postal,
+        UserCountry: formData.Country ,
+        UserPassword: formData.password,
+        UserProfileTypeId: profile
+        }
+        const sendData = appendData(obj);
+        axios({
+            method: 'POST',
+            url: user_sign_up,
+            data:sendData
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
     };
 
-
-    const navigate = useNavigate();
 
     return (
         <div className='loginback'>
@@ -56,7 +131,7 @@ export default function SignUp() {
                                 variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1}}>
+                    <Box component="form" id='form1' noValidate onSubmit={handleSubmit} sx={{ mt: 1}}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -67,6 +142,7 @@ export default function SignUp() {
                                     label="First Name"
                                     autoFocus
                                     size='small'
+                                    onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -77,9 +153,10 @@ export default function SignUp() {
                                     name="lastName"
                                     autoComplete="family-name"
                                     size='small'
+                                    onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                                    <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
                                     id="email"
@@ -87,6 +164,7 @@ export default function SignUp() {
                                     name="email"
                                     autoComplete="email"
                                     size='small'
+                                    onChange={handleChange}
                                 />
                             </Grid>
 
@@ -95,34 +173,39 @@ export default function SignUp() {
                                     fullWidth
                                     id="phno"
                                     label="Phone Number"
-                                    name="Phone Number"
+                                    name="PhoneNumber"
                                     type='tel'
                                     size='small'
+                                    onChange={handleChange}
                                 />
                             </Grid>
 {/* Address */}
 
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    id="Address_Line 1"
-                                    label="Address_Line 1"
-                                    type="text"
-                                    variant="outlined"
-                                    size='small'
-                                    color='secondary'
-                                />
+                            <Autocomplete
+                                id="combo-box-demo"
+                                size="small"
+                                options={options}
+                                onChange={(event, value) => setProfile(value.UserProfileTypeId)}
+                                fontSize='small'
+                                getOptionLabel={(option) => option.UserProfileType}
+                                renderInput={(params) => <TextField {...params} 
+                                label="Profile"
+                                 />}
+                            />
                             </Grid>
 
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
                                     id="Address"
-                                    label="Address_Line 2"
+                                    label="Address_Line"
+                                    name="Address_Line"
                                     type="text"
                                     variant="outlined"
                                     size='small'
                                     color='secondary'
+                                    onChange={handleChange}
                                 />
                             </Grid>
 
@@ -131,10 +214,12 @@ export default function SignUp() {
                                     fullWidth
                                     id="Address"
                                     label="City"
+                                    name='City'
                                     type="text"
                                     variant="outlined"
                                     size='small'
                                     color='secondary'
+                                    onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -142,12 +227,27 @@ export default function SignUp() {
                                     fullWidth
                                     id="Address"
                                     label="State"
+                                    name='State'
                                     type="text"
                                     variant="outlined"
                                     size='small'
                                     color='secondary'
+                                    onChange={handleChange}
                                 />
                             </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            id="Address"
+                                            label="Country"
+                                            name='Country'
+                                            type="text"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={handleChange}
+                                        />
+                                    </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
@@ -156,6 +256,7 @@ export default function SignUp() {
                                     name="Postal"
                                     type='tel'
                                     size='small'
+                                    onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -167,12 +268,14 @@ export default function SignUp() {
                                     id="password"
                                     autoComplete="new-password"
                                     size='small'
+                                    onChange={handleChange}
                                 />
                             </Grid>
                         </Grid>
                         <Button
                             type="submit"
                             fullWidth
+                            form='form1'
                             variant="contained"
                             sx={{ mt: 3, mb: 1 }}
                         >

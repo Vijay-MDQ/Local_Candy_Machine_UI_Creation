@@ -15,6 +15,8 @@ import {
     IconButton,
     InputAdornment,
 } from "@mui/material";
+import { user_sign_in } from '../API_Service/API_Service';
+import axios from 'axios';
 
 
 
@@ -40,6 +42,45 @@ export default function AdminLoginPage() {
     const [color, setColor] = useState(false);
     const [message, setMessage] = useState("");
     const [showPassword, setShowPassword] = useState(true);
+
+    const [UserName , setUserName] = useState('');
+    const [Password, setPassword] = useState('');
+
+
+
+
+    const handleSubmit = () => {
+        const sendData = new FormData();
+        sendData.append('UserPhone', UserName )
+        sendData.append('UserPassword', Password)
+        axios({
+            method: 'POST',
+            url: user_sign_in,
+            data: sendData
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                    localStorage.setItem('UserAuth', String(true));
+                    localStorage.setItem('UserName', String(res.data.data.UserName));
+                    localStorage.setItem('UserProfileTypeId', String(res.data.data.UserProfileTypeId));
+                    localStorage.setItem('UserProfileType', String(res.data.data.UserProfileType));
+                    localStorage.setItem('UserToken', res.data.data.UserToken);
+                    navigate('/home');
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
+    };
 
 
     return (
@@ -72,7 +113,7 @@ export default function AdminLoginPage() {
                             >
                                 Welcome
                             </Typography>
-                        <Box component="form"  sx={{ mt: 1 }}>
+                            <Box  sx={{ mt: 1 }}>
                             <Stack textAlign='left' spacing={2}>
                                     <Box sx={{ py: 2 }} >
                                         <TextField
@@ -80,7 +121,8 @@ export default function AdminLoginPage() {
                                             label="User Name"
                                             variant="outlined"
                                             autoComplete="off"
-                                            sx={{ width: { xs: 150, sm: 200, md: 300, lg: 300 } }}
+                                            sx={{ width: { xs: 150, sm: 250, md: 300, lg: 300 } }}
+                                            onChange={(e)=>setUserName(e.target.value)}
                                         />
                                 </Box>
                                 <Box sx={{ py: 2 }}>
@@ -90,6 +132,7 @@ export default function AdminLoginPage() {
                                             autoComplete="off"
                                             type={showPassword ? 'password' : 'text'}
                                             label="Password"
+                                            onChange={(e) => setPassword(e.target.value)}
                                             InputProps={{
                                                 endAdornment: (
                                                     <InputAdornment position="end">
@@ -103,10 +146,9 @@ export default function AdminLoginPage() {
                                 </Box>
                             </Stack>
                             <Button
-                                type="submit"
                                 fullWidth
                                 variant="contained"
-                                
+                                onClick={handleSubmit}
                                sx={{ mt: 3, mb: 2, bgcolor: '#7bc54c', ':hover': { bgcolor: '#84cb25' } }}
                             >
                                 Sign In
@@ -119,7 +161,7 @@ export default function AdminLoginPage() {
                                 </Grid>
                             </Grid>
 
-                        </Box>
+                            </Box>
                     </Box>
                     <Copyright sx={{ mt: 3 , mb:1}} />
                     </Grid>

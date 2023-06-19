@@ -4,7 +4,7 @@ import './Header.styles.css';
 import {useState} from "react";
 import * as React from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import Logo from '../assets/removebg-preview-1.png';
 
 export default function Header() {
   
@@ -36,7 +36,7 @@ export default function Header() {
     <Grid item xs={12} sm={12} md={12} lg={12}>
               <Box className="auto-group-wh57-8wY">
                 <Box>
-                <img className="removebg-preview-1-FoC" src='' alt='removebg' />
+                <img className="removebg-preview-1-FoC" src={Logo} alt='removebg' style={{height:90 , width:200 , objectFit:'contain'}} />
                 </Box>
               <Box display='flex' flexDirection='row'>
               <Typography className="home-VSe" onClick={() =>navigate('/home')}>Home</Typography>

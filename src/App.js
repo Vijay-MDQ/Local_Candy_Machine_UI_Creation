@@ -17,11 +17,14 @@ import { BrowserRouter } from 'react-router-dom';
 import Routes from './Routes';
 import AfforestationForm from './Components/AfforestationForm';
 import ProjectionTable from './Components/ProjectionTable';
+import SignUpForm from './Components/SignupForm';
 
 function App() {
   return (
     <div>
-      <ProjectionTable />
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
     </div>
   );
 }
