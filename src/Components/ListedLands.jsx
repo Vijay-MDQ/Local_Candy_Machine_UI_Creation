@@ -1,23 +1,16 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions } from '@mui/material';
+import { Button, CardActionArea, CardActions, Stack } from '@mui/material';
 import { useState } from 'react';
 import { Box} from '@mui/material';
+import axios from 'axios';
+import { LandOwnerFiles, get_all_land_owner } from '../API_Service/API_Service';
 
-const tabsData = [
-    { label: 'Land One', details: [{ 'image': 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?cs=srgb&dl=pexels-%C3%A1kos-szab%C3%B3-440731.jpg&fm=jpg' , 'Land_ID': 'L1D2', 'Longtitude': 'XXXX', 'Lattitude': 'XXXX', 'Land_Size': '45.Sq.ft', 'Creation_Date': 'DD / MM / YYYY', 'ProjectCommenceDate': 'DD / MM / YYYY', 'Status': 'Active' }] },
-    { label: 'Land Two', details: [{ 'image': 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?cs=srgb&dl=pexels-%C3%A1kos-szab%C3%B3-440731.jpg&fm=jpg' ,'Land_ID': 'L1D3', 'Longtitude': 'YYXX', 'Lattitude': 'UUUX', 'Land_Size': '65.Sq.ft', 'Creation_Date': 'DD / MM / YYYY', 'ProjectCommenceDate': 'DD / MM / YYYY', 'Status': 'On Hold' }] },
-    { label: 'Land Three', details: [{ 'image': 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?cs=srgb&dl=pexels-%C3%A1kos-szab%C3%B3-440731.jpg&fm=jpg' , 'Land_ID': 'L3D4', 'Longtitude': 'ZZXX', 'Lattitude': 'MMXX', 'Land_Size': '75.Sq.ft', 'Creation_Date': 'DD / MM / YYYY', 'ProjectCommenceDate': 'DD / MM / YYYY', 'Status': 'Expired' }] },
-    { label: 'Land Four', details: [{ 'image': 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?cs=srgb&dl=pexels-%C3%A1kos-szab%C3%B3-440731.jpg&fm=jpg' , 'Land_ID': 'L5D4', 'Longtitude': 'AAAX', 'Lattitude': 'NNXX', 'Land_Size': '85.Sq.ft', 'Creation_Date': 'DD / MM / YYYY', 'ProjectCommenceDate': 'DD / MM / YYYY', 'Status': 'In Review' }] },
-    { label: 'Land Five', details: [{ 'image': 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?cs=srgb&dl=pexels-%C3%A1kos-szab%C3%B3-440731.jpg&fm=jpg' , 'Land_ID': 'L6D6', 'Longtitude': 'CCCX', 'Lattitude': 'FFXX', 'Land_Size': '95.Sq.ft', 'Creation_Date': 'DD / MM / YYYY', 'ProjectCommenceDate': 'DD / MM / YYYY', 'Status': 'Active' }] },
-    { label: 'Land Six', details: [{ 'image': 'https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg?cs=srgb&dl=pexels-%C3%A1kos-szab%C3%B3-440731.jpg&fm=jpg' ,'Land_ID': 'L9D8', 'Longtitude': 'NNNN', 'Lattitude': 'GGGX', 'Land_Size': '40.Sq.ft', 'Creation_Date': 'DD / MM / YYYY', 'ProjectCommenceDate': 'DD / MM / YYYY', 'Status': 'Active' }] },
-  // Add more tab data as needed
-];
 
 export default function ListedLands() {
     const [value, setValue] = useState(0);
@@ -25,6 +18,67 @@ export default function ListedLands() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobileNum, setMobileNum] = useState('');
+    const [alternateMobile, setAlternateMobile] = useState('');
+    const [landAddress1, setLandAddress1] = useState('');
+    const [landAddress2, setLandAddress2] = useState('');
+    const [landCity, setLandCity] = useState('');
+    const [landState, setLandState] = useState('');
+    const [landPostalCode, setLandPostalCode] = useState('');
+    const [landCountry, setLandCountry] = useState('');
+    const [landSize, setLandSize] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [termsAndConditions, setTermsAndConditions] = useState('');
+    const [termsAndConditionsFile, setTermsAndConditionsFile] = useState('');
+    const [creationDate, setCreationDate] = useState('');
+    const [projectCommenceDate, setProjectCommenceDate] = useState('');
+    const [landStatus, setLandStatus] = useState('');
+    const [VirtualVideo, setVirtualVideo] = useState('');
+    const [Remarks, setRemarks] = useState('');
+    const [data , setData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const UserToken = localStorage.getItem('UserToken');
+    const UserId = localStorage.getItem('UserProfileTypeId');
+    const UserType = localStorage.getItem('UserProfileType');
+
+   useEffect(()=>{
+       axios({
+           method: 'GET',
+           url: get_all_land_owner,
+           headers: {
+               'Authorization': `Bearer ${UserToken}`,
+           }
+       })
+           .then((res) => {
+               if (res.data.error) {
+                   setMessage(res.data.message);
+                   setOpen(true);
+                   setStatus(false);
+                   setColor(false);
+               } else {
+                   setMessage(res.data.message);
+                   setOpen(true);
+                   setStatus(true);
+                   setColor(true);
+                   setData(res.data.data);
+               }
+           })
+           .catch((err) => {
+               alert("Oops something went wrong " + err);
+           });
+   },[])
+
+
 
     return (
         <Box sx={{width:540}}>
@@ -40,42 +94,77 @@ export default function ListedLands() {
                     },
                 }}
             >
-                {tabsData.map((tab, index) => (
-                    <Tab key={index} label={tab.label} />
+                {data.map((tab, index) => (
+                    <Tab key={index} label={tab.LandState} />
                 ))}
             </Tabs>
             <Box my={2} mx={5}>
+                {data.length > 0 && value < data.length && (
             <Card sx={{ maxWidth: 345 }}>
-                {tabsData[value].details.map((detail, index) => (
-                    <>
                 <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={detail.image}
-                        alt="green iguana"
-                    />
+                <CardMedia
+                    component="video"
+                    height="200"
+                    width='100%'
+                    src={`${LandOwnerFiles}${data[value].VirtualVideo}`}
+                    controls
+                />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="div" textAlign='left'>
-                                    {detail.Land_ID}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" textAlign='left'>Land ID : {detail.Land_ID}</Typography>
-                                <Typography variant="body2" color="text.secondary" textAlign='left'>Longtitude : {detail.Longtitude}</Typography>
-                                <Typography variant="body2" color="text.secondary" textAlign='left'>Lattitude : {detail.Lattitude}</Typography>
-                                <Typography variant="body2" color="text.secondary" textAlign='left'>Land Size :  {detail.Land_Size}</Typography>
-                                <Typography variant="body2" color="text.secondary" textAlign='left'>Creation Date : {detail.Creation_Date}</Typography>
-                                <Typography variant="body2" color="text.secondary" textAlign='left'>Project Commence Date : {detail.ProjectCommenceDate}</Typography>
-                                <Typography variant="body2" color="text.secondary" textAlign='left'>Status : {detail.Status}</Typography>
-                    </CardContent>
+                    <Typography gutterBottom variant="h5" component="div" textAlign='left'>
+                        {data[value].LandOwnerId}
+                    </Typography>
+                    <Stack spacing={1}>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
+                    <Typography variant="body2">{data[value].LandOwnerId}</Typography>
+                    </Box>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
+                    <Typography variant="body2"> {data[value].Longitude}</Typography>
+                    </Box>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
+                    <Typography variant="body2"> {data[value].Latitude}</Typography>
+                    </Box>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
+                    <Typography variant="body2"> {data[value].LandSize}</Typography>
+                    </Box>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
+                    <Typography variant="body2"> {data[value].CreationDate}</Typography>
+                    </Box>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
+                    <Typography variant="body2"> {data[value].ProjectCommenceDate}</Typography>
+                    </Box>
+                    <Box display='flex' gap={1} flexDirection='row'>
+                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
+                    <Typography variant="body2"> {data[value].LandStatus}</Typography>
+                    </Box>
+                     </Stack>
+                </CardContent>
                 </CardActionArea>
                 <CardActions>
+                    {
+                    UserType === 'Investor' ?
                     <Button size="small" color="primary">
                         Invest on this Land
                     </Button>
+                    :
+                    <Box display='flex' justifyContent='space-between' flexDirection='row'>
+                    <Button size="small" color="primary">
+                        View
+                    </Button>
+                    <Button size="small" color="primary">
+                        Update
+                    </Button>
+                    </Box>
+
+                    }
                 </CardActions>
-                    </>
-                ))}
             </Card>
+                )}
             </Box>
         </Box>
     );
