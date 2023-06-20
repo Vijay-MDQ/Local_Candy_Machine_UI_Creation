@@ -414,7 +414,7 @@ export default function Lands() {
 
             </Box >
 
-</Box>
+            </Box>
         </Box>
     )
 }

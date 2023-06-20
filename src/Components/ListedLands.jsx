@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { Box} from '@mui/material';
 import axios from 'axios';
 import { LandOwnerFiles, get_all_land_owner } from '../API_Service/API_Service';
+import Header from './Header';
 
 
 export default function ListedLands() {
@@ -48,7 +49,6 @@ export default function ListedLands() {
     const [message, setMessage] = useState("");
 
     const UserToken = localStorage.getItem('UserToken');
-    const UserId = localStorage.getItem('UserProfileTypeId');
     const UserType = localStorage.getItem('UserProfileType');
 
    useEffect(()=>{
@@ -81,6 +81,8 @@ export default function ListedLands() {
 
 
     return (
+        <Box>
+            <Header />
         <Box sx={{width:540}}>
             <Tabs
                 value={value}
@@ -166,6 +168,7 @@ export default function ListedLands() {
             </Card>
                 )}
             </Box>
+        </Box>
         </Box>
     );
 };
