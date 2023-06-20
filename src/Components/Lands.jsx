@@ -40,7 +40,7 @@ export default function Lands() {
 
     const handleSubmit = () => {
         const obj = {
-        UserId: 1,
+        UserId: UserId,
         LandOwnerName: name,
         Email: email,
         MobileNum: mobileNum,
@@ -89,6 +89,10 @@ export default function Lands() {
             });
     };
 
+    console.log(open);
+    console.log(message);
+    console.log(status);
+    console.log(color);
 
     return (
         <Box>

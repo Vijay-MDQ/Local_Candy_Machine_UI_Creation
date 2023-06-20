@@ -5,17 +5,17 @@ const TimberProjectExpense = () => {
 
     const [rows, setRows] = useState([]);
 
-    const handleCostChange = (index, event) => {
-        const newRows = [...rows];
-        newRows[index].cost = parseFloat(event.target.value);
-        setRows(newRows);
-    };
+    // const handleCostChange = (index, event) => {
+    //     const newRows = [...rows];
+    //     newRows[index].cost = parseFloat(event.target.value);
+    //     setRows(newRows);
+    // };
 
-    const handleQtyChange = (index, event) => {
-        const newRows = [...rows];
-        newRows[index].qty = parseInt(event.target.value);
-        setRows(newRows);
-    };
+    // const handleQtyChange = (index, event) => {
+    //     const newRows = [...rows];
+    //     newRows[index].qty = parseInt(event.target.value);
+    //     setRows(newRows);
+    // };
 
     const calculateTotal = (cost, qty) => {
         if (!cost || !qty) {

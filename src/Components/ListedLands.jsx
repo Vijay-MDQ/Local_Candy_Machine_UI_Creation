@@ -21,32 +21,8 @@ export default function ListedLands() {
     };
 
 
-
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [mobileNum, setMobileNum] = useState('');
-    const [alternateMobile, setAlternateMobile] = useState('');
-    const [landAddress1, setLandAddress1] = useState('');
-    const [landAddress2, setLandAddress2] = useState('');
-    const [landCity, setLandCity] = useState('');
-    const [landState, setLandState] = useState('');
-    const [landPostalCode, setLandPostalCode] = useState('');
-    const [landCountry, setLandCountry] = useState('');
-    const [landSize, setLandSize] = useState('');
-    const [latitude, setLatitude] = useState('');
-    const [longitude, setLongitude] = useState('');
-    const [termsAndConditions, setTermsAndConditions] = useState('');
-    const [termsAndConditionsFile, setTermsAndConditionsFile] = useState('');
-    const [creationDate, setCreationDate] = useState('');
-    const [projectCommenceDate, setProjectCommenceDate] = useState('');
-    const [landStatus, setLandStatus] = useState('');
-    const [VirtualVideo, setVirtualVideo] = useState('');
-    const [Remarks, setRemarks] = useState('');
     const [data , setData] = useState([]);
-    const [open, setOpen] = useState(false);
-    const [status, setStatus] = useState(false);
-    const [color, setColor] = useState(false);
-    const [message, setMessage] = useState("");
+ 
 
     const UserToken = localStorage.getItem('UserToken');
     const UserType = localStorage.getItem('UserProfileType');
@@ -61,22 +37,15 @@ export default function ListedLands() {
        })
            .then((res) => {
                if (res.data.error) {
-                   setMessage(res.data.message);
-                   setOpen(true);
-                   setStatus(false);
-                   setColor(false);
+                   setData([]);
                } else {
-                   setMessage(res.data.message);
-                   setOpen(true);
-                   setStatus(true);
-                   setColor(true);
                    setData(res.data.data);
                }
            })
            .catch((err) => {
                alert("Oops something went wrong " + err);
            });
-   },[])
+   }, [UserToken])
 
 
 
