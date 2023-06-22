@@ -29,4 +29,6 @@ const get_all_land_owner = `${baseApiurl}get_all_land_owner`;
 
 const add_investor = `${baseApiurl}add_investor`;
 
-export { get_all_user_profile_type,methodGet, methodPost,  user_sign_in, add_investor, user_sign_up, add_land_owner, get_all_land_owner, LandOwnerFiles, InvestorFiles };
+const add_project_developer = `${baseApiurl}add_project_developer`;
+
+export { get_all_user_profile_type, methodGet, add_project_developer, methodPost,  user_sign_in, add_investor, user_sign_up, add_land_owner, get_all_land_owner, LandOwnerFiles, InvestorFiles };

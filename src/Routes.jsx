@@ -15,6 +15,7 @@ import GoProjectDeveloperForm from './Components/GoProjectDeveloperForm';
 import InvesterProfileForm from './Components/InvestForm';
 import PlantationForm from './Components/PlantationForm';
 import VVBForm from './Components/VVBForm';
+import GovtAgencyForm from './Components/GovtAgencyForm';
 // PAGE COMPONENTS
 
 
@@ -92,6 +93,10 @@ function Routes() {
         {
             path: 'vvbform',
             element: <VVBForm />
+        },
+        {
+            path: 'govtagency',
+            element: <GovtAgencyForm />
         },
     ]);
 }

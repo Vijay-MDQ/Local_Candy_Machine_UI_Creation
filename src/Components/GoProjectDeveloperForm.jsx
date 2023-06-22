@@ -1,8 +1,93 @@
 import { Box, Button, Grid, TextField, Stack , Autocomplete} from "@mui/material";
-import Header from './Header';
+import Header from "./Header";
+import { useState } from "react";
+import { appendData } from "../Variables/ProcessVariable";
+import { add_investor, add_project_developer } from "../API_Service/API_Service";
+import axios from "axios";
+
 
 
 export default function GoProjectDeveloperForm() {
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobileNum, setMobileNum] = useState('');
+    const [alternateMobile, setAlternateMobile] = useState('');
+    const [developerAddress1, setDeveloperAddress1] = useState('');
+    const [developerAddress2, setDeveloperAddress2] = useState('');
+    const [developerCity, setDeveloperCity] = useState('');
+    const [developerState, setDeveloperState] = useState('');
+    const [developerPostalCode, setDeveloperPostalCode] = useState('');
+    const [developerCountry, setDeveloperCountry] = useState('');
+    const [metaversePlatform, setMetaversePlatform] = useState('');
+    const [communicationHistory, setCommunicationHistory] = useState('');
+    const [developmentReport, setDevelopmentReport] = useState('');
+    const [creationDate, setCreationDate] = useState('');
+    const [projectCommenceDate, setProjectCommenceDate] = useState('');
+    const [developerStatus, setDeveloperStatus] = useState('');
+    const [communicationHistoryFile, setCommunicationHistoryFile] = useState('');
+    const [developmentReportFile, setDevelopmentReportFile] = useState('');
+    const [Remarks, setRemarks] = useState('');
+
+
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const UserToken = localStorage.getItem('UserToken');
+    const UserId = localStorage.getItem('UserProfileTypeId');
+
+
+    const handleSubmit = () => {
+        const obj = {
+            UserId: 3,
+            DeveloperName:name,
+            Email:email,
+            MobileNum:mobileNum,
+            AlternateMobile:alternateMobile,
+            DeveloperAddress1:developerAddress1,
+            DeveloperAddress2:developerAddress2,
+            DeveloperCity:developerCity,
+            DeveloperState:developerState,
+            DeveloperPostalCode:developerPostalCode,
+            DeveloperCountry:developerCountry,
+            MetaversePlatform:metaversePlatform,
+            CommunicationHistory:communicationHistory,
+            DevelopmentReport:developmentReport,
+            CreationDate:creationDate,
+            ProjectCommenceDate:projectCommenceDate,
+            DeveloperStatus:developerStatus,
+            CommunicationHistoryFile:communicationHistoryFile,
+            DevelopmentReportFile:developmentReportFile,
+        }
+
+        const sendData = appendData(obj);
+        axios({
+            method: 'POST',
+            url: add_project_developer,
+            data: sendData,
+            headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
+    };
 
 
     return (
@@ -29,7 +114,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size="small"
                                             color="primary"
-                                            InputLabelProps={{ fontSize: 5 }}
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                     </Grid>
 
@@ -42,6 +127,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMobileNum(e.target.value)}
                                         />
                                     </Grid>
 
@@ -54,6 +140,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setAlternateMobile(e.target.value)}
                                         />
                                     </Grid>
 
@@ -67,6 +154,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setDeveloperAddress1(e.target.value)}
                                         />
                                     </Grid>
 
@@ -80,6 +168,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setDeveloperAddress2(e.target.value)}
                                         />
                                     </Grid>
 
@@ -92,6 +181,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setDeveloperCity(e.target.value)}
                                         />
                                     </Grid>
 
@@ -104,6 +194,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setDeveloperState(e.target.value)}
                                         />
                                     </Grid>
 
@@ -116,6 +207,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMetaversePlatform(e.target.value)}
                                         />
                                     </Grid>
 
@@ -127,6 +219,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCommunicationHistory(e.target.value)}
                                         />
                                     </Grid>
 
@@ -142,6 +235,7 @@ export default function GoProjectDeveloperForm() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            onChange={(e) => setCommunicationHistoryFile(e.target.files[0])}
                                         />
                                     </Grid>
 
@@ -153,6 +247,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setDevelopmentReport(e.target.value)}
                                         />
                                     </Grid>
 
@@ -168,6 +263,7 @@ export default function GoProjectDeveloperForm() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            onChange={(e) => setDevelopmentReportFile(e.target.files[0])}
                                         />
                                     </Grid>
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
@@ -182,6 +278,7 @@ export default function GoProjectDeveloperForm() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            onChange={(e) => setCreationDate(e.target.value)}
                                         />
                                     </Grid>
 
@@ -197,6 +294,7 @@ export default function GoProjectDeveloperForm() {
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                            onChange={(e) => setProjectCommenceDate(e.target.value)}
                                         />
                                     </Grid>
 
@@ -208,6 +306,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setRemarks(e.target.value)}
                                         />
                                     </Grid>
 
@@ -216,6 +315,7 @@ export default function GoProjectDeveloperForm() {
                                             id="combo-box-demo"
                                             size="small"
                                             options={['Active', 'Inactive', 'Suspended']}
+                                            onChange={(event, value) => setDeveloperStatus(value)}
                                             renderInput={(params) => <TextField {...params} label="Status" />}
                                         />
                                     </Grid>
@@ -235,6 +335,7 @@ export default function GoProjectDeveloperForm() {
                                 <Grid item lg={3} sm={3} xl={3} xs={3} md={3} sx={{ py: 2 }} >
                                     <Stack spacing={2} direction="row" >
                                         <Button fullWidth variant="outlined"
+                                        onClick={handleSubmit}
                                             sx={{
                                                 color: 'white', backgroundColor: '#7bc54c', borderColor: '#7bc54c',
                                                 ':hover': { borderColor: '#7bc54c', color: '#000000' }

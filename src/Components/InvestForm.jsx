@@ -106,6 +106,7 @@ export default function InvestForm() {
     return (
         <Box>
         <Header />
+        
             <Box sx={{ height: '90%' }} display="flex" alignItems="center">
 
                 <Box py={4} sx={{ px: 5, backgroundColor: '#e5f4eb', borderRadius: '10px', mx: 3, my: 4, boxShadow: 11 }}>

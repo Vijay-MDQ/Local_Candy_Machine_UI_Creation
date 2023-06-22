@@ -28,9 +28,7 @@ export default function AdminLoginPage() {
         return (
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
                 Wanna Plant a Tree?
-                <Link color="inherit" style={{ marginLeft: 2 }} onClick={(e) =>{
-                    e.preventDefault();
-                    navigate('signup')}}>
+                <Link color="inherit" style={{ marginLeft: 2 }} to='/signup'>
                     Sign up
                 </Link>{' '}
             </Typography>
