@@ -1,9 +1,96 @@
 import { Box, Button, Grid, TextField, Stack, Autocomplete } from "@mui/material";
 import Header from './Header';
-
+import { add_vvb } from "../API_Service/API_Service";
+import { useState } from "react";
+import { appendData } from "../Variables/ProcessVariable";
+import axios from "axios";
 
 export default function VVB() {
 
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobileNum, setMobileNum] = useState('');
+    const [alternateMobile, setAlternateMobile] = useState('');
+    const [VVBAddress1, setVVBAddress1] = useState('');
+    const [VVBAddress2, setVVBAddress2] = useState('');
+    const [VVBCity, setVVBCity] = useState('');
+    const [VVBState, setVVBState] = useState('');
+    const [VVBPostalCode, setVVBPostalCode] = useState('');
+    const [VVBCountry, setVVBCountry] = useState('');
+    const [AccreditationInformation, setAccreditationInformation] = useState('');
+    const [ProjectVerify, setProjectVerify] = useState('');
+    const [InspectionFindings, setInspectionFindings] = useState('');
+    const [CarbonCredit, setCarbonCredit] = useState('');
+    const [creationDate, setCreationDate] = useState('');
+    const [projectCommenceDate, setProjectCommenceDate] = useState('');
+    const [AccreditationInformationFile, setAccreditationInformationFile] = useState(null);
+    const [ProjectVerifyFile, setProjectVerifyFile] = useState(null);
+    const [InspectionFindingsFile, setInspectionFindingsFile] = useState(null);
+    const [VVBStatus, setVVBStatus] = useState('');
+
+
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const UserToken = localStorage.getItem('UserToken');
+    const UserId = localStorage.getItem('UserProfileTypeId');
+
+
+ 
+
+    const handleSubmit = () => {
+        const obj = {
+        UserId:5,
+        VVBName:name,
+        Email:email,
+        MobileNum:mobileNum,
+        AlternateMobile:alternateMobile,
+        VVBAddress1:VVBAddress1,
+        VVBAddress2:VVBAddress2,
+        VVBCity:VVBCity,
+        VVBState:VVBState,
+        VVBPostalCode:VVBPostalCode,
+        VVBCountry:VVBCountry,
+        AccreditationInformation:AccreditationInformation,
+        ProjectVerify:ProjectVerify,
+        InspectionFindings:InspectionFindings,
+        CarbonCredit:CarbonCredit,
+        CreationDate:creationDate,
+        ProjectCommenceDate:projectCommenceDate,
+        VVBStatus:VVBStatus,
+        AccreditationInformationFile: AccreditationInformationFile,
+        ProjectVerifyFile:ProjectVerifyFile,
+        InspectionFindingsFile:InspectionFindingsFile
+        }
+
+        const sendData = appendData(obj);
+        axios({
+            method: 'POST',
+            url: add_vvb,
+            data: sendData,
+            headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
+    };
 
     return (
         <Box>
@@ -20,7 +107,7 @@ export default function VVB() {
                                     <h5>UPDATE VVB INFORMATION</h5>
                                 </Box>
 
-                                <Grid container justifyContent='space-evenly' spacing={2}>
+                                <Grid container justifyContent='start' spacing={2}>
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
@@ -29,6 +116,7 @@ export default function VVB() {
                                             variant="outlined"
                                             size="small"
                                             color="primary"
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                     </Grid>
 
@@ -41,8 +129,23 @@ export default function VVB() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMobileNum(e.target.value)}
                                         />
                                     </Grid>
+
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Ph No"
+                                            label="Alternate Ph No"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setAlternateMobile(e.target.value)}
+                                        />
+                                    </Grid>
+
 
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
@@ -53,6 +156,7 @@ export default function VVB() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </Grid>
 
@@ -66,6 +170,7 @@ export default function VVB() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setVVBAddress1(e.target.value)}
                                         />
                                     </Grid>
 
@@ -79,6 +184,7 @@ export default function VVB() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setVVBAddress2(e.target.value)}
                                         />
                                     </Grid>
 
@@ -91,6 +197,7 @@ export default function VVB() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setVVBCity(e.target.value)}
                                         />
                                     </Grid>
 
@@ -103,29 +210,58 @@ export default function VVB() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setVVBState(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Registry "
-                                            label="Carbon Credit Registry "
+                                            id="Address"
+                                            label="Country"
+                                            type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setVVBCountry(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Address"
+                                            label="Postal Code"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setVVBPostalCode(e.target.value)}
                                         />
                                     </Grid>
 
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Registry "
-                                            label="Carbon Credit Registry "
+                                            id="Accreditation Information "
+                                            label="Accreditation Information "
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setAccreditationInformation(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Accreditation Information "
+                                            label="Accreditation Information "
                                             variant="outlined"
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setAccreditationInformationFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -135,23 +271,25 @@ export default function VVB() {
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Generation Reports"
-                                            label="Carbon Credit Generation Reports"
+                                            id="Project Verification Reports "
+                                            label="Project Verification Reports "
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setProjectVerify(e.target.value)}
                                         />
                                     </Grid>
 
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Generation Reports"
-                                            label="Carbon Credit Generation Reports"
+                                            id="Project Verification Reports "
+                                            label="Project Verification Reports "
                                             variant="outlined"
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setProjectVerifyFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -161,26 +299,40 @@ export default function VVB() {
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Trading History"
-                                            label="Carbon Credit Trading History"
+                                            id="On-site Inspection Findings "
+                                            label="On-site Inspection Findings "
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setInspectionFindings(e.target.value)}
                                         />
                                     </Grid>
 
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Trading History"
-                                            label="Carbon Credit Trading History"
+                                            id="On-site Inspection Findings "
+                                            label="On-site Inspection Findings "
                                             variant="outlined"
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setInspectionFindingsFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Calculation Methodology"
+                                            label="Carbon Credit Calculation Methodology"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setCarbonCredit(e.target.value)}
                                         />
                                     </Grid>
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
@@ -192,6 +344,7 @@ export default function VVB() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCreationDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -207,6 +360,7 @@ export default function VVB() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setProjectCommenceDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -214,20 +368,10 @@ export default function VVB() {
                                     </Grid>
 
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Remarks"
-                                            label="Remarks"
-                                            variant="outlined"
-                                            size='small'
-                                            color='secondary'
-                                        />
-                                    </Grid>
-
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <Autocomplete
                                             id="combo-box-demo"
                                             size="small"
+                                            onChange={(event, value) => setVVBStatus(value)}
                                             options={['Verified', 'In Progress', 'Rejected', 'Pending']}
                                             renderInput={(params) => <TextField {...params} label="Status" />}
                                         />

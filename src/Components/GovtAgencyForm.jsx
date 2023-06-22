@@ -109,6 +109,84 @@ export default function GovtAgencyForm() {
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
+                                            id="Carbon Credit Registry "
+                                            label="Carbon Credit Registry "
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Registry "
+                                            label="Carbon Credit Registry "
+                                            variant="outlined"
+                                            size="small"
+                                            color="secondary"
+                                            type="file"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Generation Reports"
+                                            label="Carbon Credit Generation Reports"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Generation Reports"
+                                            label="Carbon Credit Generation Reports"
+                                            variant="outlined"
+                                            size="small"
+                                            color="secondary"
+                                            type="file"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Trading History"
+                                            label="Carbon Credit Trading History"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Trading History"
+                                            label="Carbon Credit Trading History"
+                                            variant="outlined"
+                                            size="small"
+                                            color="secondary"
+                                            type="file"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
                                             id="Regulatory Guidelines and Policies"
                                             label="Regulatory Guidelines and Policies"
                                             variant="outlined"

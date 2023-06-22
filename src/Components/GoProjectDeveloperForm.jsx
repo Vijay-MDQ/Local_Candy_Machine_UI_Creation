@@ -29,7 +29,6 @@ export default function GoProjectDeveloperForm() {
     const [developmentReportFile, setDevelopmentReportFile] = useState('');
     const [Remarks, setRemarks] = useState('');
 
-
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(false);
     const [color, setColor] = useState(false);
@@ -104,8 +103,7 @@ export default function GoProjectDeveloperForm() {
                                 <Box sx={{ pb: 2, textAlign: 'left' }}>
                                     <h5>GO GREEN PROJECT DEVELOPER</h5>
                                 </Box>
-
-                                <Grid container justifyContent='space-evenly' spacing={2}>
+                                <Grid container justifyContent='start' spacing={2}>
                                     <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
@@ -131,7 +129,20 @@ export default function GoProjectDeveloperForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Ph No"
+                                            label="Alternate Ph No"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setAlternateMobile(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Email"
@@ -140,7 +151,7 @@ export default function GoProjectDeveloperForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
-                                            onChange={(e) => setAlternateMobile(e.target.value)}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </Grid>
 
@@ -195,6 +206,32 @@ export default function GoProjectDeveloperForm() {
                                             size='small'
                                             color='secondary'
                                             onChange={(e) => setDeveloperState(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Address"
+                                            label="Country"
+                                            type="text"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setDeveloperCountry(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Address"
+                                            label="Postal Code"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setDeveloperPostalCode(e.target.value)}
                                         />
                                     </Grid>
 
@@ -298,7 +335,7 @@ export default function GoProjectDeveloperForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Remarks"
