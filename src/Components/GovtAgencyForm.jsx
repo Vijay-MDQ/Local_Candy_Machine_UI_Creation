@@ -1,8 +1,95 @@
 import { Box, Button, Grid, TextField, Stack, Autocomplete } from "@mui/material";
 import Header from './Header';
-
+import { add_cri, add_plantation_partner, add_vvb } from "../API_Service/API_Service";
+import { useState } from "react";
+import { appendData } from "../Variables/ProcessVariable";
+import axios from "axios";
 
 export default function GovtAgencyForm() {
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobileNum, setMobileNum] = useState('');
+    const [alternateMobile, setAlternateMobile] = useState('');
+    const [GovAgencyAddress1, setGovAgencyAddress1] = useState('');
+    const [GovAgencyAddress2, setGovAgencyAddress2] = useState('');
+    const [GovAgencyCity, setGovAgencyCity] = useState('');
+    const [GovAgencyState, setGovAgencyState] = useState('');
+    const [GovAgencyPostalCode, setGovAgencyPostalCode] = useState('');
+    const [GovAgencyCountry, setGovAgencyCountry] = useState('');
+    const [RegulatoryGuidelines, setRegulatoryGuidelines] = useState('');
+    const [AuditReport, setAuditReport] = useState('');
+    const [ComplianceRecord, setComplianceRecord] = useState('');
+    const [GovAgencyStatus, setGovAgencyStatus] = useState('');
+    const [RegulatoryGuidelinesFile, setRegulatoryGuidelinesFile] = useState(null);
+    const [AuditReportFile, setAuditReportFile] = useState(null);
+    const [ComplianceRecordFile, setComplianceRecordFile] = useState(null);
+    const [creationDate, setCreationDate] = useState('');
+    const [projectCommenceDate, setProjectCommenceDate] = useState('');
+    const [Remarks, setRemarks] = useState('');
+
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const UserToken = localStorage.getItem('UserToken');
+    const UserId = localStorage.getItem('UserProfileTypeId');
+
+
+
+
+    const handleSubmit = () => {
+        const obj = {
+            UserId: 5,
+            CRIName: name,
+            Email: email,
+            MobileNum: mobileNum,
+            AlternateMobile: alternateMobile,
+            CreationDate: creationDate,
+            ProjectCommenceDate: projectCommenceDate,
+            GovAgencyAddress1:GovAgencyAddress1,
+            GovAgencyAddress2:GovAgencyAddress2,
+            GovAgencyCity:GovAgencyCity,
+            GovAgencyState:GovAgencyState,
+            GovAgencyPostalCode:GovAgencyPostalCode,
+            GovAgencyCountry:GovAgencyCountry,
+            RegulatoryGuidelines:RegulatoryGuidelines,
+            AuditReport:AuditReport,
+            ComplianceRecord:ComplianceRecord,
+            GovAgencyStatus:GovAgencyStatus,
+            RegulatoryGuidelinesFile:RegulatoryGuidelinesFile,
+            AuditReportFile:AuditReportFile,
+            ComplianceRecordFile:ComplianceRecordFile,
+            Remarks: Remarks
+        }
+
+        const sendData = appendData(obj);
+        axios({
+            method: 'POST',
+            url: add_plantation_partner,
+            data: sendData,
+            headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
+    };
 
 
     return (
@@ -20,8 +107,8 @@ export default function GovtAgencyForm() {
                                     <h5>GOVERNMENT AGENCY ANALYSIS</h5>
                                 </Box>
 
-                                <Grid container justifyContent='space-evenly' spacing={2}>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                <Grid container justifyContent='start' spacing={2}>
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Name"
@@ -29,10 +116,11 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size="small"
                                             color="primary"
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Ph No"
@@ -41,10 +129,25 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMobileNum(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Ph No"
+                                            label="Alternate Ph No"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setAlternateMobile(e.target.value)}
+                                        />
+                                    </Grid>
+
+
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Email"
@@ -53,36 +156,39 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_1"
+                                            label="Address_Line 1"
                                             type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setGovAgencyAddress2(e.target.value)}
                                         />
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_2"
+                                            label="Address_Line 2"
                                             type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setGovAgencyAddress2(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -91,10 +197,11 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setGovAgencyCity(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -103,88 +210,37 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setGovAgencyState(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Registry "
-                                            label="Carbon Credit Registry "
+                                            id="Address"
+                                            label="Country"
+                                            type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setGovAgencyCountry(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Carbon Credit Registry "
-                                            label="Carbon Credit Registry "
-                                            variant="outlined"
-                                            size="small"
-                                            color="secondary"
-                                            type="file"
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
-
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Carbon Credit Generation Reports"
-                                            label="Carbon Credit Generation Reports"
+                                            id="Address"
+                                            label="Postal Code"
+                                            type="tel"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setGovAgencyPostalCode(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Carbon Credit Generation Reports"
-                                            label="Carbon Credit Generation Reports"
-                                            variant="outlined"
-                                            size="small"
-                                            color="secondary"
-                                            type="file"
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
-
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Carbon Credit Trading History"
-                                            label="Carbon Credit Trading History"
-                                            variant="outlined"
-                                            size='small'
-                                            color='secondary'
-                                        />
-                                    </Grid>
-
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Carbon Credit Trading History"
-                                            label="Carbon Credit Trading History"
-                                            variant="outlined"
-                                            size="small"
-                                            color="secondary"
-                                            type="file"
-                                            InputLabelProps={{
-                                                shrink: true,
-                                            }}
-                                        />
-                                    </Grid>
-
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Regulatory Guidelines and Policies"
@@ -192,10 +248,11 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setRegulatoryGuidelines(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Regulatory Guidelines and Policies"
@@ -204,13 +261,14 @@ export default function GovtAgencyForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setRegulatoryGuidelinesFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Audit Reports"
@@ -218,10 +276,11 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setAuditReport(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Audit Reports"
@@ -230,13 +289,14 @@ export default function GovtAgencyForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setAuditReportFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Compliance Records"
@@ -244,10 +304,11 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setComplianceRecord(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Compliance Records"
@@ -256,12 +317,13 @@ export default function GovtAgencyForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setComplianceRecordFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Creation Date"
@@ -270,13 +332,14 @@ export default function GovtAgencyForm() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCreationDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Project Commence Date"
@@ -285,13 +348,14 @@ export default function GovtAgencyForm() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setProjectCommenceDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Remarks"
@@ -299,13 +363,15 @@ export default function GovtAgencyForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setRemarks(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <Autocomplete
                                             id="combo-box-demo"
                                             size="small"
+                                            onChange={(event, value) => setGovAgencyStatus(value)}
                                             options={['Active', 'Inactive']}
                                             renderInput={(params) => <TextField {...params} label="Status" />}
                                         />
@@ -325,7 +391,7 @@ export default function GovtAgencyForm() {
                             <Grid container justifyContent='space-evenly' alignItems='center'>
                                 <Grid item lg={3} sm={3} xl={3} xs={3} md={3} sx={{ py: 2 }} >
                                     <Stack spacing={2} direction="row" >
-                                        <Button fullWidth variant="outlined"
+                                        <Button fullWidth variant="outlined" onClick={handleSubmit}
                                             sx={{
                                                 color: 'white', backgroundColor: '#7bc54c', borderColor: '#7bc54c',
                                                 ':hover': { borderColor: '#7bc54c', color: '#000000' }

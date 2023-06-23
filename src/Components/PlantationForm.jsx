@@ -320,7 +320,7 @@ export default function PlantationForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
-                                            onChange={(e) => setWaterManagementFile(e.target.value)}
+                                            onChange={(e) => setWaterManagementFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -348,7 +348,7 @@ export default function PlantationForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
-                                            onChange={(e) => setFertilizerManagementFile(e.target.value)}
+                                            onChange={(e) => setFertilizerManagementFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
@@ -387,7 +387,7 @@ export default function PlantationForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
-                                            onChange={(e) => setRecommendationFile(e.target.value)}
+                                            onChange={(e) => setRecommendationFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
