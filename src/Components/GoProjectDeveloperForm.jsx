@@ -129,7 +129,7 @@ export default function GoProjectDeveloperForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Ph No"
@@ -209,7 +209,7 @@ export default function GoProjectDeveloperForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -222,7 +222,7 @@ export default function GoProjectDeveloperForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -335,7 +335,7 @@ export default function GoProjectDeveloperForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Remarks"

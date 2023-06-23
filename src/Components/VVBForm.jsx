@@ -108,7 +108,7 @@ export default function VVB() {
                                 </Box>
 
                                 <Grid container justifyContent='start' spacing={2}>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Name"
@@ -120,7 +120,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Ph No"
@@ -133,7 +133,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Ph No"
@@ -147,7 +147,7 @@ export default function VVB() {
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Email"
@@ -161,11 +161,11 @@ export default function VVB() {
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_1"
+                                            label="Address_Line 1"
                                             type="text"
                                             variant="outlined"
                                             size='small'
@@ -175,11 +175,11 @@ export default function VVB() {
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_2"
+                                            label="Address_Line 2"
                                             type="text"
                                             variant="outlined"
                                             size='small'
@@ -188,7 +188,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -201,7 +201,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -214,7 +214,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -227,7 +227,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -240,7 +240,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Accreditation Information "
@@ -252,7 +252,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Accreditation Information "
@@ -268,7 +268,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Project Verification Reports "
@@ -280,7 +280,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Project Verification Reports "
@@ -296,7 +296,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="On-site Inspection Findings "
@@ -308,7 +308,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="On-site Inspection Findings "
@@ -324,7 +324,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Carbon Credit Calculation Methodology"
@@ -335,7 +335,7 @@ export default function VVB() {
                                             onChange={(e) => setCarbonCredit(e.target.value)}
                                         />
                                     </Grid>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Creation Date"
@@ -351,7 +351,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Project Commence Date"
@@ -367,7 +367,7 @@ export default function VVB() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <Autocomplete
                                             id="combo-box-demo"
                                             size="small"
@@ -392,6 +392,7 @@ export default function VVB() {
                                 <Grid item lg={3} sm={3} xl={3} xs={3} md={3} sx={{ py: 2 }} >
                                     <Stack spacing={2} direction="row" >
                                         <Button fullWidth variant="outlined"
+                                        onClick={handleSubmit}
                                             sx={{
                                                 color: 'white', backgroundColor: '#7bc54c', borderColor: '#7bc54c',
                                                 ':hover': { borderColor: '#7bc54c', color: '#000000' }

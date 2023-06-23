@@ -120,7 +120,7 @@ export default function InvestForm() {
                                 </Box>
 
                                     <Grid container justifyContent='start' spacing={2}>
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Name"
@@ -132,7 +132,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Ph No"
@@ -145,7 +145,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Ph No"
@@ -158,7 +158,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Email"
@@ -172,7 +172,7 @@ export default function InvestForm() {
                                         </Grid>
 
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Address"
@@ -186,7 +186,7 @@ export default function InvestForm() {
                                         </Grid>
 
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Address"
@@ -199,7 +199,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Address"
@@ -212,7 +212,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }} >
                                             <TextField
                                                 fullWidth
                                                 id="Address"
@@ -225,7 +225,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Address"
@@ -238,7 +238,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Address"
@@ -252,7 +252,7 @@ export default function InvestForm() {
                                         </Grid>
 
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Investment"
@@ -265,7 +265,7 @@ export default function InvestForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Investment"
@@ -281,7 +281,7 @@ export default function InvestForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Progress Tracking"
@@ -294,7 +294,7 @@ export default function InvestForm() {
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Progress Tracking"
@@ -316,7 +316,7 @@ export default function InvestForm() {
                                     </Box>
                                     </Grid>
 
-                                    <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="LandID"
@@ -333,7 +333,7 @@ export default function InvestForm() {
                                     </Grid>
 
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Land Size"
@@ -346,7 +346,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Longtitude"
@@ -358,7 +358,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Lattitude"
@@ -370,7 +370,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Lease T&C"
@@ -382,7 +382,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Lease Terms & Conditions"
@@ -398,7 +398,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Video"
@@ -414,7 +414,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Creation Date"
@@ -430,7 +430,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Project Commence Date"
@@ -446,7 +446,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <TextField
                                                 fullWidth
                                                 id="Remarks"
@@ -458,7 +458,7 @@ export default function InvestForm() {
                                             />
                                         </Grid>
 
-                                        <Grid item lg={3} sm={4} xl={3} xs={12} md={3} sx={{ py: 1 }}  >
+                                        <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                             <Autocomplete
                                                 id="combo-box-demo"
                                                 size="small"

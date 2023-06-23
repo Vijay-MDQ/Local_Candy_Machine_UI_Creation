@@ -1,9 +1,106 @@
 import { Box, Button, Grid, TextField, Stack, Autocomplete } from "@mui/material";
 import Header from './Header';
+import { add_cri, add_plantation_partner, add_vvb } from "../API_Service/API_Service";
+import { useState } from "react";
+import { appendData } from "../Variables/ProcessVariable";
+import axios from "axios";
 
 
 export default function PlantationForm() {
 
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobileNum, setMobileNum] = useState('');
+    const [alternateMobile, setAlternateMobile] = useState('');
+    const [PlantationPartnerAddress1, setPlantationPartnerAddress1] = useState('');
+    const [PlantationPartnerAddress2, setPlantationPartnerAddress2] = useState('');
+    const [PlantationPartnerCity, setPlantationPartnerCity] = useState('');
+    const [PlantationPartnerState, setPlantationPartnerState] = useState('');
+    const [PlantationPartnerPostalCode, setPlantationPartnerPostalCode] = useState('');
+    const [PlantationPartnerCountry, setPlantationPartnerCountry] = useState('');
+    const [PlantTypes, setPlantTypes] = useState('');
+    const [Species, setSpecies] = useState('');
+    const [DistanceOfPlanting, setDistanceOfPlanting] = useState('');
+    const [MaintenancePeriod, setMaintenancePeriod] = useState('');
+    const [WaterManagement, setWaterManagement] = useState('');
+    const [FertilizerManagement, setFertilizerManagement] = useState('');
+    const [TotalLand, setTotalLand] = useState('');
+    const [Recommendation, setRecommendation] = useState('');
+    const [PlantationPartnerStatus, setPlantationPartnerStatus] = useState('');
+    const [WaterManagementFile, setWaterManagementFile] = useState(null);
+    const [FertilizerManagementFile, setFertilizerManagementFile] = useState(null);
+    const [RecommendationFile, setRecommendationFile] = useState(null);
+    const [Remarks, setRemarks] = useState('');
+    const [creationDate, setCreationDate] = useState('');
+    const [projectCommenceDate, setProjectCommenceDate] = useState('');
+
+
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const UserToken = localStorage.getItem('UserToken');
+    const UserId = localStorage.getItem('UserProfileTypeId');
+
+
+
+
+    const handleSubmit = () => {
+        const obj = {
+            UserId: 5,
+            CRIName: name,
+            Email: email,
+            MobileNum: mobileNum,
+            AlternateMobile: alternateMobile,
+            CreationDate: creationDate,
+            ProjectCommenceDate: projectCommenceDate,
+            PlantationPartnerAddress1:PlantationPartnerAddress1,
+            PlantationPartnerAddress2:PlantationPartnerAddress2,
+            PlantationPartnerCity: PlantationPartnerCity,
+            PlantationPartnerState:PlantationPartnerState,
+            PlantationPartnerPostalCode:PlantationPartnerPostalCode,
+            PlantationPartnerCountry:PlantationPartnerCountry,
+            PlantTypes:PlantTypes,
+            Species:Species,
+            DistanceOfPlanting:DistanceOfPlanting,
+            MaintenancePeriod:MaintenancePeriod,
+            WaterManagement:WaterManagement,
+            FertilizerManagement:FertilizerManagement,
+            TotalLand:TotalLand,
+            Recommendation:Recommendation,
+            PlantationPartnerStatus:PlantationPartnerStatus,
+            WaterManagementFile:WaterManagementFile,
+            FertilizerManagementFile:FertilizerManagementFile,
+            RecommendationFile:RecommendationFile
+        }
+
+        const sendData = appendData(obj);
+        axios({
+            method: 'POST',
+            url: add_plantation_partner,
+            data: sendData,
+            headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
+    };
 
     return (
         <Box>
@@ -21,7 +118,7 @@ export default function PlantationForm() {
                                 </Box>
 
                                 <Grid container justifyContent='space-evenly' spacing={2}>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Name"
@@ -29,10 +126,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size="small"
                                             color="primary"
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Ph No"
@@ -41,10 +139,25 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMobileNum(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Ph No"
+                                            label="Alternate Ph No"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setAlternateMobile(e.target.value)}
+                                        />
+                                    </Grid>
+
+
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Email"
@@ -53,36 +166,39 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_1"
+                                            label="Address_Line 1"
                                             type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setPlantationPartnerAddress1(e.target.value)}
                                         />
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_2"
+                                            label="Address_Line 2"
                                             type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setPlantationPartnerAddress2(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -91,10 +207,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setPlantationPartnerCity(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -103,10 +220,37 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setPlantationPartnerState(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Address"
+                                            label="Country"
+                                            type="text"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setPlantationPartnerCountry(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Address"
+                                            label="Postal Code"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setPlantationPartnerPostalCode(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Plant Types"
@@ -115,10 +259,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setPlantTypes(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Species "
@@ -126,10 +271,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setSpecies(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Distance of Planting "
@@ -137,10 +283,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setDistanceOfPlanting(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Maintenance Period"
@@ -148,10 +295,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMaintenancePeriod(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Water Management"
@@ -159,10 +307,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setWaterManagement(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Water Management"
@@ -171,13 +320,14 @@ export default function PlantationForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setWaterManagementFile(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Fertilizer Management"
@@ -185,10 +335,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setFertilizerManagement(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Fertilizer Management"
@@ -197,13 +348,14 @@ export default function PlantationForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setFertilizerManagementFile(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Total Land "
@@ -211,9 +363,10 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setTotalLand(e.target.value)}
                                         />
                                     </Grid>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Recommendations"
@@ -221,10 +374,11 @@ export default function PlantationForm() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setRecommendation(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Recommendations"
@@ -233,12 +387,13 @@ export default function PlantationForm() {
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setRecommendationFile(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Creation Date"
@@ -247,13 +402,14 @@ export default function PlantationForm() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCreationDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Project Commence Date"
@@ -262,16 +418,18 @@ export default function PlantationForm() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setProjectCommenceDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <Autocomplete
                                             id="combo-box-demo"
                                             size="small"
+                                            onChange={(event, value) => setPlantationPartnerStatus(value)}
                                             options={['Active', 'In Active', 'Completed']}
                                             renderInput={(params) => <TextField {...params} label="Status" />}
                                         />
@@ -291,7 +449,7 @@ export default function PlantationForm() {
                             <Grid container justifyContent='space-evenly' alignItems='center'>
                                 <Grid item lg={3} sm={3} xl={3} xs={3} md={3} sx={{ py: 2 }} >
                                     <Stack spacing={2} direction="row" >
-                                        <Button fullWidth variant="outlined"
+                                        <Button fullWidth variant="outlined" onClick={handleSubmit}
                                             sx={{
                                                 color: 'white', backgroundColor: '#7bc54c', borderColor: '#7bc54c',
                                                 ':hover': { borderColor: '#7bc54c', color: '#000000' }

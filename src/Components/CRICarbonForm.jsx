@@ -1,8 +1,95 @@
 import { Box, Button, Grid, TextField, Stack, Autocomplete } from "@mui/material";
 import Header from './Header';
+import { add_cri, add_vvb } from "../API_Service/API_Service";
+import { useState } from "react";
+import { appendData } from "../Variables/ProcessVariable";
+import axios from "axios";
 
 
 export default function CRICarbon() {
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [mobileNum, setMobileNum] = useState('');
+    const [alternateMobile, setAlternateMobile] = useState('');
+    const [CRIAddress1, setCRIAddress1] = useState('');
+    const [CRIAddress2, setCRIAddress2] = useState('');
+    const [CRICity, setCRICity] = useState('');
+    const [CRIState, setCRIState] = useState('');
+    const [CRIPostalCode, setCRIPostalCode] = useState('');
+    const [CRICountry, setCRICountry] = useState('');
+    const [CCRegistry, setCCRegistry] = useState('');
+    const [CCReport, setCCReport] = useState('');
+    const [CCTradingHistory, setCCTradingHistory] = useState('');
+    const [creationDate, setCreationDate] = useState('');
+    const [projectCommenceDate, setProjectCommenceDate] = useState('');
+    const [CRIStatus, setCRIStatus] = useState('');
+    const [CCRegistryFile, setCCRegistryFile] = useState(null);
+    const [CCReportFile, setCCReportFile] = useState(null);
+    const [CCTradingHistoryFile, setCCTradingHistoryFile] = useState(null);
+    const [Remarks, setRemarks] = useState('');
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const UserToken = localStorage.getItem('UserToken');
+    const UserId = localStorage.getItem('UserProfileTypeId');
+
+
+
+
+    const handleSubmit = () => {
+        const obj = {
+            UserId: 5,
+            CRIName: name,
+            Email: email,
+            MobileNum: mobileNum,
+            AlternateMobile: alternateMobile,
+            CreationDate: creationDate,
+            ProjectCommenceDate: projectCommenceDate,
+            CRIAddress1:CRIAddress1,
+            CRIAddress2:CRIAddress2,
+            CRICity:CRICity,
+            CRIState:CRIState,
+            CRIPostalCode:CRIPostalCode,
+            CRICountry:CRICountry,
+            CCRegistry:CCRegistry,
+            CCReport:CCReport,
+            CCTradingHistory:CCTradingHistory,
+            CRIStatus:CRIStatus,
+            CCRegistryFile:CCRegistryFile,
+            CCReportFile:CCReportFile,
+            CCTradingHistoryFile:CCTradingHistoryFile,
+            Remarks: Remarks,
+        }
+
+        const sendData = appendData(obj);
+        axios({
+            method: 'POST',
+            url: add_cri,
+            data: sendData,
+            headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+        })
+            .then((res) => {
+                if (res.data.error) {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(false);
+                    setColor(false);
+                } else {
+                    setMessage(res.data.message);
+                    setOpen(true);
+                    setStatus(true);
+                    setColor(true);
+                }
+            })
+            .catch((err) => {
+                alert("Oops something went wrong " + err);
+            });
+    };
 
 
     return (
@@ -20,8 +107,8 @@ export default function CRICarbon() {
                                     <h5>UPDATE CRI CARBON DETAILS</h5>
                                 </Box>
 
-                                <Grid container justifyContent='space-evenly' spacing={2}>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                <Grid container justifyContent='start' spacing={2}>
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Name"
@@ -29,10 +116,11 @@ export default function CRICarbon() {
                                             variant="outlined"
                                             size="small"
                                             color="primary"
+                                            onChange={(e) => setName(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Ph No"
@@ -41,10 +129,25 @@ export default function CRICarbon() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setMobileNum(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Ph No"
+                                            label="Alternate Ph No"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setAlternateMobile(e.target.value)}
+                                        />
+                                    </Grid>
+
+
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Email"
@@ -53,36 +156,39 @@ export default function CRICarbon() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_1"
+                                            label="Address_Line 1"
                                             type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCRIAddress1(e.target.value)}
                                         />
                                     </Grid>
 
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
-                                            label="Address_2"
+                                            label="Address_Line 2"
                                             type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCRIAddress2(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -91,10 +197,11 @@ export default function CRICarbon() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCRICity(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Address"
@@ -103,98 +210,121 @@ export default function CRICarbon() {
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCRIState(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Accreditation Information "
-                                            label="Accreditation Information "
+                                            id="Address"
+                                            label="Country"
+                                            type="text"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCRICountry(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Accreditation Information "
-                                            label="Accreditation Information "
+                                            id="Address"
+                                            label="Postal Code"
+                                            type="tel"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setCRIPostalCode(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Registry "
+                                            label="Carbon Credit Registry "
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setCCRegistry(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Carbon Credit Registry "
+                                            label="Carbon Credit Registry "
                                             variant="outlined"
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setCCRegistry(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Project Verification Reports "
-                                            label="Project Verification Reports "
+                                            id="Carbon Credit Generation Reports"
+                                            label="Carbon Credit Generation Reports"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCCReport(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="Project Verification Reports "
-                                            label="Project Verification Reports "
+                                            id="Carbon Credit Generation Reports"
+                                            label="Carbon Credit Generation Reports"
                                             variant="outlined"
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setCCReportFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="On-site Inspection Findings "
-                                            label="On-site Inspection Findings "
+                                            id="Carbon Credit Trading History"
+                                            label="Carbon Credit Trading History"
                                             variant="outlined"
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCCTradingHistory(e.target.value)}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
-                                            id="On-site Inspection Findings "
-                                            label="On-site Inspection Findings "
+                                            id="Carbon Credit Trading History"
+                                            label="Carbon Credit Trading History"
                                             variant="outlined"
                                             size="small"
                                             color="secondary"
                                             type="file"
+                                            onChange={(e) => setCCTradingHistoryFile(e.target.files[0])}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
-
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Carbon Credit Calculation Methodology"
-                                            label="Carbon Credit Calculation Methodology"
-                                            variant="outlined"
-                                            size='small'
-                                            color='secondary'
-                                        />
-                                    </Grid>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+ 
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Creation Date"
@@ -203,13 +333,14 @@ export default function CRICarbon() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setCreationDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
 
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth
                                             id="Project Commence Date"
@@ -218,15 +349,30 @@ export default function CRICarbon() {
                                             type='date'
                                             size='small'
                                             color='secondary'
+                                            onChange={(e) => setProjectCommenceDate(e.target.value)}
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
                                         />
                                     </Grid>
-                                    <Grid item lg={3} sm={12} xl={3} xs={12} md={4} sx={{ py: 1 }}  >
+
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                        <TextField
+                                            fullWidth
+                                            id="Remarks"
+                                            label="Remarks"
+                                            variant="outlined"
+                                            size='small'
+                                            color='secondary'
+                                            onChange={(e) => setRemarks(e.target.value)}
+                                        />
+                                    </Grid>
+
+                                     <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <Autocomplete
                                             id="combo-box-demo"
                                             size="small"
+                                            onChange={(event, value) => setCRIStatus(value)}
                                             options={['Active', 'Inactive', 'Expired']}
                                             renderInput={(params) => <TextField {...params} label="Status" />}
                                         />
@@ -246,7 +392,7 @@ export default function CRICarbon() {
                             <Grid container justifyContent='space-evenly' alignItems='center'>
                                 <Grid item lg={3} sm={3} xl={3} xs={3} md={3} sx={{ py: 2 }} >
                                     <Stack spacing={2} direction="row" >
-                                        <Button fullWidth variant="outlined"
+                                        <Button fullWidth variant="outlined" onClick={handleSubmit}
                                             sx={{
                                                 color: 'white', backgroundColor: '#7bc54c', borderColor: '#7bc54c',
                                                 ':hover': { borderColor: '#7bc54c', color: '#000000' }
