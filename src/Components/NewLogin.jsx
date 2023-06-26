@@ -70,6 +70,7 @@ export default function AdminLoginPage() {
                     localStorage.setItem('UserAuth', String(true));
                     localStorage.setItem('UserName', String(res.data.data.UserName));
                     localStorage.setItem('UserProfileTypeId', String(res.data.data.UserProfileTypeId));
+                     localStorage.setItem('UserId', String(res.data.data.UserId));
                     localStorage.setItem('UserProfileType', String(res.data.data.UserProfileType));
                     localStorage.setItem('UserToken', res.data.data.UserToken);
                     navigate('/home');
