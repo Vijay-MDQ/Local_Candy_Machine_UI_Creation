@@ -16,6 +16,8 @@ import InvesterProfileForm from './Components/InvestForm';
 import PlantationForm from './Components/PlantationForm';
 import VVBForm from './Components/VVBForm';
 import GovtAgencyForm from './Components/GovtAgencyForm';
+import UserProfile from './Components/UserProfile';
+import InvestedLands from './Components/InvestedLands';
 // PAGE COMPONENTS
 
 
@@ -56,7 +58,7 @@ function Routes() {
         },
         {
             path: 'profile',
-            element: <ProfileEmployeeDialog />,
+            element: <UserProfile />,
         },
         {
             path: 'projection',
@@ -93,6 +95,10 @@ function Routes() {
         {
             path: 'vvbform',
             element: <VVBForm />
+        },
+                {
+            path: 'investedlands',
+            element: <InvestedLands />
         },
         {
             path: 'govtagencyform',

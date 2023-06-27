@@ -5,27 +5,84 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, Stack } from '@mui/material';
+import { Button, CardActionArea, CardActions, Checkbox, FormControlLabel, Grid, Stack,  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,  TablePagination, Table, } from '@mui/material';
 import { useState } from 'react';
 import { Box} from '@mui/material';
 import axios from 'axios';
-import { LandOwnerFiles, get_all_land_owner } from '../API_Service/API_Service';
+import { LandOwnerFiles, get_all_land_owner, get_state, methodGet } from '../API_Service/API_Service';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function ListedLands() {
     const [value, setValue] = useState(0);
+    const [state, setState] = useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [data , setData] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [color, setColor] = useState(false);
+    const [message, setMessage] = useState("");
+    const UserToken = localStorage.getItem('UserToken');
+    const UserType = localStorage.getItem('UserProfileType');
+    const [selectedStates, setSelectedStates] = useState([]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
+      const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
-    const [data , setData] = useState([]);
- 
+  const handleStateChange = (event) => {
+    const stateName = event.target.name;
+    setSelectedStates((prevSelectedStates) => {
+      if (prevSelectedStates.includes(stateName)) {
+        return prevSelectedStates.filter((state) => state !== stateName);
+      } else {
+        return [...prevSelectedStates, stateName];
+      }
+    });
+  };
 
-    const UserToken = localStorage.getItem('UserToken');
-    const UserType = localStorage.getItem('UserProfileType');
+    const navigate = useNavigate();
+
+            useEffect(() => {
+            axios({
+                method: methodGet,
+                url: get_state,
+                headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+            }).then(res => {
+                if (res.data.error) {
+                    setMessage(res.data.message)
+                    setOpen(true)
+                    setStatus(false)
+                    setColor(false)
+                } else {
+                    setMessage(res.data.message)
+                    setState(res.data.data)
+                    setOpen(true)
+                    setStatus(true)
+                    setColor(true)
+
+                }
+            }).catch(err => {
+                alert('Oops something went wrong ' + err)
+            });
+    }, [])
+
 
    useEffect(()=>{
        axios({
@@ -52,91 +109,125 @@ export default function ListedLands() {
     return (
         <Box>
             <Header />
-        <Box sx={{width:540}}>
-            <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons
-                aria-label="visible arrows tabs example"
-                sx={{
-                    [`& .${tabsClasses.scrollButtons}`]: {
-                        '&.Mui-disabled': { opacity: 0.3 },
-                    },
-                }}
-            >
-                {data.map((tab, index) => (
-                    <Tab key={index} label={tab.LandState} />
-                ))}
-            </Tabs>
-            <Box my={2} mx={5}>
-                {data.length > 0 && value < data.length && (
-            <Card sx={{ maxWidth: 345 }}>
-                <CardActionArea>
-                <CardMedia
-                    component="video"
-                    height="200"
-                    width='100%'
-                    src={`${LandOwnerFiles}${data[value].VirtualVideo}`}
-                    controls
-                />
-                    <CardContent>
-                    <Typography gutterBottom variant="h5" component="div" textAlign='left'>
-                        {data[value].LandOwnerId}
-                    </Typography>
-                    <Stack spacing={1}>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
-                    <Typography variant="body2">{data[value].LandOwnerId}</Typography>
-                    </Box>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
-                    <Typography variant="body2"> {data[value].Longitude}</Typography>
-                    </Box>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
-                    <Typography variant="body2"> {data[value].Latitude}</Typography>
-                    </Box>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
-                    <Typography variant="body2"> {data[value].LandSize}</Typography>
-                    </Box>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
-                    <Typography variant="body2"> {data[value].CreationDate}</Typography>
-                    </Box>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
-                    <Typography variant="body2"> {data[value].ProjectCommenceDate}</Typography>
-                    </Box>
-                    <Box display='flex' gap={1} flexDirection='row'>
-                    <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
-                    <Typography variant="body2"> {data[value].LandStatus}</Typography>
-                    </Box>
-                     </Stack>
-                </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    {
-                    UserType === 'Investor' ?
-                    <Button size="small" color="primary">
-                        Invest on this Land
-                    </Button>
-                    :
-                    <Box display='flex' justifyContent='space-between' flexDirection='row'>
-                    <Button size="small" color="primary">
-                        View
-                    </Button>
-                    <Button size="small" color="primary">
-                        Update
-                    </Button>
-                    </Box>
+            <Box>
+           
+           <Grid container spacing={2}  display='flex' justifyContent='space-between'>
 
-                    }
-                </CardActions>
-            </Card>
-                )}
+            <Grid item xs={8} sm={8} md={8} lg={8}>
+            <TableContainer sx={{ py: 4 }}>
+            <Table aria-label="simple table">
+            <TableBody>
+            <TableRow>
+            <Grid container display='flex' justifyContent='space-evenly' spacing={2}>
+            {data && data.map((i) =>{
+                return(
+            <Grid item xs={5} sm={5} md={5} lg={5}>
+            <Card sx={{ maxWidth: 345 }}>
+            <CardActionArea>
+            <CardMedia
+            component="video"
+            height="200"
+            width='100%'
+            src={`${LandOwnerFiles}${i.VirtualVideo}`}
+            controls
+            />
+            <CardContent>
+            <Typography gutterBottom variant="h5" component="div" textAlign='left'>
+            {i.LandOwnerId}
+            </Typography>
+            <Stack spacing={1}>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
+            <Typography variant="body2">{i.LandOwnerId}</Typography>
             </Box>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
+            <Typography variant="body2"> {i.Longitude}</Typography>
+            </Box>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
+            <Typography variant="body2"> {i.Latitude}</Typography>
+            </Box>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
+            <Typography variant="body2"> {i.LandSize}</Typography>
+            </Box>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
+            <Typography variant="body2"> {i.CreationDate}</Typography>
+            </Box>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
+            <Typography variant="body2"> {i.ProjectCommenceDate}</Typography>
+            </Box>
+            <Box display='flex' gap={1} flexDirection='row'>
+            <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
+            <Typography variant="body2"> {i.LandStatus}</Typography>
+            </Box>
+            </Stack>
+            </CardContent>
+            </CardActionArea>
+            <CardActions>
+            {
+            UserType === 'Investor' ?
+            <Button size="small" color="primary" onClick={()=>navigate('/investorprofileform')}>
+            Invest on this Land
+            </Button>
+            :
+            <Box display='flex' justifyContent='space-between' flexDirection='row'>
+            <Button size="small" color="primary">
+            View
+            </Button>
+            <Button size="small" color="primary">
+            Update
+            </Button>
+            </Box>
+            }
+            </CardActions>
+            </Card>
+            </Grid>
+            )})}
+            </Grid>
+                </TableRow>
+                </TableBody>
+                </Table>
+                </TableContainer>
+                <TablePagination
+                sx={{display:'flex', justifyContent:'center'}}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={data.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                  />
+           </Grid>
+
+           <Grid item xs={4} sm={4} md={4} lg={4}>
+            <Box component={Card} bgcolor='#FFFFFF' p={3}>
+            <Grid container spacing={2}>
+            {state.map((i) => {
+            return(
+            <Grid item xs={12} sm={6} md={6} lg={6} key={i.StateId}>
+            <FormControlLabel
+            control={
+            <Checkbox
+            checked={selectedStates.includes(i.StateName)}
+            onChange={handleStateChange}
+            name={i.StateName}
+            sx={{fontSize:13}}
+            />
+            }
+            label={i.StateName}
+            />
+            </Grid>
+            )})}
+            </Grid>    
+            </Box>
+           </Grid>
+           </Grid>
+
         </Box>
         </Box>
     );

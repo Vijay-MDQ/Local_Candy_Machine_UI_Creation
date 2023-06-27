@@ -1,9 +1,10 @@
 import { Box, Button,  Grid, TextField, Autocomplete,Stack } from "@mui/material";
 import Header from "./Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { appendData } from "../Variables/ProcessVariable";
-import { add_land_owner } from "../API_Service/API_Service";
+import { add_land_owner, get_district, get_state, methodGet, methodPost } from "../API_Service/API_Service";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -29,7 +30,9 @@ export default function Lands() {
     const [landStatus, setLandStatus] = useState('');
     const [VirtualVideo, setVirtualVideo] = useState('');
     const [Remarks , setRemarks] = useState('');
-
+    const [state, setState] = useState([]);
+    const [districtList, setDistrictList]= useState([]);
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [status, setStatus] = useState(false);
     const [color, setColor] = useState(false);
@@ -38,9 +41,75 @@ export default function Lands() {
     const UserToken = localStorage.getItem('UserToken');
     const UserId = localStorage.getItem('UserProfileTypeId');
 
+            useEffect(() => {
+            axios({
+                method: methodGet,
+                url: get_state,
+                headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+            }).then(res => {
+                if (res.data.error) {
+                    setMessage(res.data.message)
+                    setOpen(true)
+                    setStatus(false)
+                    setColor(false)
+                } else {
+                    setMessage(res.data.message)
+                    setState(res.data.data)
+                    setOpen(true)
+                    setStatus(true)
+                    setColor(true)
+
+                }
+            }).catch(err => {
+                alert('Oops something went wrong ' + err)
+            });
+    }, [])
+
+    console.log(districtList);
+
+ // POST FETCH
+    useEffect(() => {
+        if(landState !== ''){
+            const lData = new FormData()
+            lData.append('StateId', landState.StateId);
+            axios({
+                method: methodPost,
+                url: get_district,
+                data: lData,
+                headers: {
+                'Authorization': `Bearer ${UserToken}`,
+            }
+            }).then(res => {
+                if (res.data.error) {
+                    setMessage(res.data.message)
+                    setOpen(true)
+                    setStatus(false)
+                    setColor(false)
+                    setDistrictList([])
+                } else {
+                    setMessage(res.data.message)
+                    setDistrictList(res.data.data)
+                    setOpen(true)
+                    setStatus(true)
+                    setColor(true)
+                
+                }
+            }).catch(err => {
+                alert('Oops something went wrong ' + err)
+            });
+        }
+        else{
+            setMessage('Select a State First');
+        }
+
+    }, [landState])
+
+
     const handleSubmit = () => {
         const obj = {
-        UserId: UserId,
+        UserId: 24,
         LandOwnerName: name,
         Email: email,
         MobileNum: mobileNum,
@@ -48,7 +117,7 @@ export default function Lands() {
         LandAddress1:landAddress1,
         LandAddress2:landAddress2,
         LandCity: landCity,
-        LandState:landState,
+        LandState:landState.StateName,
         LandPostalCode: landPostalCode,
         LandCountry: landCountry,
         LandSize: landSize,
@@ -82,6 +151,7 @@ export default function Lands() {
                     setOpen(true);
                     setStatus(true);
                     setColor(true);
+                    navigate('/listedlands')
                 }
             })
             .catch((err) => {
@@ -89,10 +159,7 @@ export default function Lands() {
             });
     };
 
-    console.log(open);
-    console.log(message);
-    console.log(status);
-    console.log(color);
+
 
     return (
         <Box>
@@ -189,31 +256,31 @@ export default function Lands() {
                                         />
                                     </Grid>
 
-                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Address"
-                                            label="City"
-                                            type="text"
-                                            variant="outlined"
-                                            size='small'
-                                            color='secondary'
-                                            onChange={(e) => setLandCity(e.target.value)}
-                                        />
-                                    </Grid>
-                                      <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
-                                        <TextField
-                                            fullWidth
-                                            id="Address"
-                                            label="State"
-                                            type="text"
-                                            variant="outlined"
-                                            size='small'
-                                            color='secondary'
-                                            onChange={(e) => setLandState(e.target.value)}
+                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                         <Autocomplete
+                                            id="combo-box-demo"
+                                            size="small"
+                                            freeSolo
+                                            defaultValue=''
+                                            onChange={(event, value)=>setLandState(value ?? '')}
+                                            options={state}
+                                            getOptionLabel={(option) => option ? option.StateName : ""}
+                                            renderInput={(params) => <TextField {...params} label="State" />}
                                         />
                                     </Grid>
 
+                                    <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
+                                         <Autocomplete
+                                            id="combo-box-demo"
+                                            size="small"
+                                            freeSolo
+                                            defaultValue=''
+                                            onChange={(event, value)=>setLandCity(value ?? '')}
+                                            options={districtList}
+                                            getOptionLabel={(option) => option ? option.DistrictName : ""}
+                                            renderInput={(params) => <TextField {...params} label="City" />}
+                                        />
+                                    </Grid>
                                       <Grid item xl={3} lg={3} md={3} sm={6} xs={12} sx={{ py: 1 }}  >
                                         <TextField
                                             fullWidth

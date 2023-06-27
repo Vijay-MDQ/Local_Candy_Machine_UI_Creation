@@ -12,7 +12,7 @@ export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
-
+ const UserProfileType = localStorage.getItem('UserProfileType');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -61,7 +61,12 @@ export default function Header() {
                 </Menu>
               </Box>
               <Typography className="home-VSe" onClick={() => handleOpenPage('listedlands')}>Listed Lands</Typography>
-              <Typography className="home-VSe" onClick={() => handleOpenPage('addyourlands')}>Add Lands</Typography>
+                      {
+                    UserProfileType === 'Land owner' && <Typography className="home-VSe" onClick={() => handleOpenPage('addyourlands')}>Add Lands</Typography>
+                    }
+                    {
+                    UserProfileType === 'Investor' &&  <Typography className="home-VSe" onClick={() => handleOpenPage('investedlands')}>Invested Lands</Typography>
+                    }
               <Typography className="home-VSe" onClick={() => handleOpenPage('profile')}>Profile</Typography>
               <Typography className="home-VSe" onClick={() => navigate('/')}>Logout<LogoutIcon  sx={{verticalAlign:'middle'}}/></Typography>
               </Box>

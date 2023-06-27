@@ -38,7 +38,7 @@ export default function AdminProfileForm() {
     const [message, setMessage] = useState("");
 
     const UserToken = localStorage.getItem('UserToken');
-    const UserId = localStorage.getItem('UserProfileTypeId');
+    const UserProfileTypeId = localStorage.getItem('UserProfileTypeId');
 
         useEffect(() => {
             axios({
