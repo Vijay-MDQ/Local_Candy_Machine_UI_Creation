@@ -117,11 +117,11 @@ export default function ListedLands() {
             <TableContainer sx={{ py: 4 }}>
             <Table aria-label="simple table">
             <TableBody>
-            <TableRow>
             <Grid container display='flex' justifyContent='space-evenly' spacing={2}>
-            {data && data.map((i) =>{
-                return(
-            <Grid item xs={5} sm={5} md={5} lg={5}>
+            {data && data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((i) => {
+            return (
+            <TableRow>
+            <Grid item xs={12} sm={12} md={12} lg={12} my={1}>
             <Card sx={{ maxWidth: 345 }}>
             <CardActionArea>
             <CardMedia
@@ -186,9 +186,9 @@ export default function ListedLands() {
             </CardActions>
             </Card>
             </Grid>
+            </TableRow>
             )})}
             </Grid>
-                </TableRow>
                 </TableBody>
                 </Table>
                 </TableContainer>
@@ -212,12 +212,13 @@ export default function ListedLands() {
             <Grid item xs={12} sm={6} md={6} lg={6} key={i.StateId}>
             <FormControlLabel
             control={
-            <Checkbox
-            checked={selectedStates.includes(i.StateName)}
-            onChange={handleStateChange}
-            name={i.StateName}
-            sx={{fontSize:13}}
-            />
+                <Checkbox
+                checked={selectedStates.includes(i.StateName)}
+                onChange={handleStateChange}
+                name={i.StateName}
+                size="small"
+                sx={{ '& .MuiSvgIcon-root': { fontSize:15 } }}
+                />
             }
             label={i.StateName}
             />
