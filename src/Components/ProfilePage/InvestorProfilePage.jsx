@@ -9,6 +9,7 @@ import Header from '../Header';
 import { get_user, methodGet, methodPost } from '../../API_Service/API_Service';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function InvestorProfilePage() {
 
@@ -52,6 +53,7 @@ export default function InvestorProfilePage() {
     }, [])
 
     console.log(userData);
+       const navigate = useNavigate();
 
     return (
         <>
@@ -118,8 +120,8 @@ export default function InvestorProfilePage() {
                                         <Typography color='#84cb25'>4</Typography>
                                     </Box>
                                     <Box textAlign='center'>
-                                        <Typography color='#3860b5'>New Invest</Typography>
-                                        <Typography color='#84cb25'><AddCircleOutlineIcon /></Typography>
+                                        <Typography color='#3860b5' >New Invest</Typography>
+                                        <Typography color='#84cb25'><AddCircleOutlineIcon onClick={()=>navigate('/listedlands')} /></Typography>
                                     </Box>
                                     <Box textAlign='center'>
                                         <Typography color='#3860b5'>Edit Invest Information</Typography>

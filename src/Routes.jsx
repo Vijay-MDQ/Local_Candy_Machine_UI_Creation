@@ -18,6 +18,7 @@ import VVBForm from './Components/VVBForm';
 import GovtAgencyForm from './Components/GovtAgencyForm';
 import UserProfile from './Components/UserProfile';
 import InvestedLands from './Components/InvestedLands';
+import UpdateAddedLands from './Components/UpdateAddedLands';
 // PAGE COMPONENTS
 
 
@@ -55,6 +56,10 @@ function Routes() {
         {
             path: 'addyourlands',
             element: <Lands />,
+        },
+        {
+            path: 'updateaddedlands',
+            element: <UpdateAddedLands />,
         },
         {
             path: 'profile',
