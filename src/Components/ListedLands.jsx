@@ -23,6 +23,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import styled from '@emotion/styled';
 import Skeleton from '@mui/material/Skeleton';
 import CloseIcon from '@mui/icons-material/Close';
+import LandDataDialog from './LandDataDialog';
 
 export default function ListedLands() {
     const [value, setValue] = useState(0);
@@ -38,12 +39,13 @@ export default function ListedLands() {
     const UserType = localStorage.getItem('UserProfileType');
     const [selectedStates, setSelectedStates] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedItem, setSelectedItem] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [ShowFilterList, setShowFilterList] = useState(false);
     const [Loading , setLoading] = useState(true);
     const[recentSearch , setRecentSearch] = useState([]);
+    const [input , setInput] = useState(false);
      
     
     useEffect(() => {
@@ -58,9 +60,6 @@ export default function ListedLands() {
     setOpenDialog(true);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
 
     const handleChange = (event, newValue) => {
@@ -199,13 +198,16 @@ const handleSearchChange = (event, newValue) => {
       }
     };
 
-console.log(searchResults);
+  const resetFilter = () =>{
+    setShowFilterList(false);
+    setInput(true);
+  }
 
     return (
         <Box>
             <Header />
             <Box p={1}>
-           
+            <LandDataDialog openDialog={openDialog} setOpenDialog={setOpenDialog} i={selectedItem} />
            <Grid container spacing={2}  display='flex' justifyContent='space-between'>
        
           <Grid item xs={12} sm={12} md={3} lg={3} height='auto' borderRight={{xs:'none' , sm:'none', md:'1px solid silver'}}>
@@ -216,6 +218,7 @@ console.log(searchResults);
           id="combo-box-demo"
           size="small"
           freeSolo
+          key={input}
           onChange={handleSearchChange}
           options={state}
           getOptionLabel={(option) => (option ? option.StateName : '')}
@@ -252,7 +255,10 @@ console.log(searchResults);
           ShowFilterList && searchQuery !== '' ?
           <>
         <Box p={1}>
+          <Box display='flex' justifyContent='space-between'>
           <Typography variant='h6' color='text.secondary'>Best Results</Typography>
+           <Typography color='#3285a8' onClick={resetFilter} sx={{textDecoration:'underline'}}>See All Lands</Typography>
+          </Box>
           <Typography variant='caption'>({LandList && LandList.length})</Typography>
         </Box>
         {
@@ -293,30 +299,6 @@ console.log(searchResults);
             <Typography variant="body2" color="text.secondary" fontWeight={600}>Located:</Typography>
             <Typography variant="body2">{i.LandCity}, {i.LandState}, {i.LandCountry}</Typography>
             </Box>
-            {/* <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
-            <Typography variant="body2">{i.LandOwnerId}</Typography>
-            </Box> */}
-            {/* <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
-            <Typography variant="body2"> {i.Longitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
-            <Typography variant="body2"> {i.Latitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
-            <Typography variant="body2"> {i.LandSize}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
-            <Typography variant="body2"> {i.CreationDate}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
-            <Typography variant="body2"> {i.ProjectCommenceDate}</Typography>
-            </Box> */}
             <Box display='flex' gap={1} flexDirection='row'>
             <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
             <Typography variant="body2"> {i.LandStatus}</Typography>
@@ -335,77 +317,21 @@ console.log(searchResults);
           <>
             {
             UserType === 'Investor' ?
+           <Box display='flex' justifyContent='space-between' flexDirection='row'>
             <Button size="small" color="primary" onClick={()=>navigate('/investorprofileform')}>
-            Invest on this Land
+            Invest
             </Button>
+              
+            <Button size="small" color="primary" onClick={()=>handleOpenDialog(i)}>
+             View
+            </Button>
+            </Box>
             :
             <Box display='flex' justifyContent='space-between' flexDirection='row'>
-            <Button size="small" color="primary" onClick={handleOpenDialog}>
+            <Button size="small" color="primary" onClick={()=>handleOpenDialog(i)}>
             View
             </Button>
-
-            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-            <DialogTitle>{i.LandOwnerId}</DialogTitle>
-            <DialogContent>
-            <Box display="flex" justifyContent="center">
-            <Card sx={{ maxWidth: 600 }}>
-            <CardMedia component="video" height="400" src={`${LandOwnerFiles}${i.VirtualVideo}`} controls />
-            <CardContent>
-            <Stack spacing={1}>
-            <Typography variant="h6" color="#84cb25" fontWeight={600} sx={{marginTop:2}}>Land Information</Typography>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
-            <Typography variant="body2">{i.LandOwnerId}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
-            <Typography variant="body2"> {i.Longitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
-            <Typography variant="body2"> {i.Latitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
-            <Typography variant="body2"> {i.LandSize}</Typography>
-            </Box>
-             <Typography variant="h6" color="#84cb25" fontWeight={600}>Land Owner Information</Typography>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Owner Name:</Typography>
-            <Typography variant="body2"> {i.LandOwnerName}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Owner Address:</Typography>
-            <Typography variant="body2"> {i.LandAddress1}, {i.LandAddress2}, {i.LandCity}, {i.LandState}, {i.LandCountry}  </Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Owner Ph:</Typography>
-            <Typography variant="body2"> {i.MobileNum}</Typography>
-            </Box>
-             <Typography variant="h6" color="#84cb25" fontWeight={600}>Project Information</Typography>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
-            <Typography variant="body2"> {i.CreationDate}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
-            <Typography variant="body2"> {i.ProjectCommenceDate}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
-            <Typography variant="body2"> {i.LandStatus}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Remarks:</Typography>
-            <Typography variant="body2"> {i.Remarks}</Typography>
-            </Box>
-            </Stack>
-            </CardContent>
-            </Card>
-            </Box>
-            </DialogContent>
-            </Dialog>
-
+         
 
             <Button size="small" color="primary" onClick={()=>movedtoEditPage(i.LandOwnerId)}>
              Update
@@ -413,7 +339,7 @@ console.log(searchResults);
             </Box>
             }
             </>
-)}
+)}            
             </CardActions>
             </Card>
         </Grid>
@@ -464,30 +390,6 @@ console.log(searchResults);
             <Typography variant="body2" color="text.secondary" fontWeight={600}>Located:</Typography>
             <Typography variant="body2">{i.LandCity}, {i.LandState}, {i.LandCountry}</Typography>
             </Box>
-            {/* <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
-            <Typography variant="body2">{i.LandOwnerId}</Typography>
-            </Box> */}
-            {/* <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
-            <Typography variant="body2"> {i.Longitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
-            <Typography variant="body2"> {i.Latitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
-            <Typography variant="body2"> {i.LandSize}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
-            <Typography variant="body2"> {i.CreationDate}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
-            <Typography variant="body2"> {i.ProjectCommenceDate}</Typography>
-            </Box> */}
             <Box display='flex' gap={1} flexDirection='row'>
             <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
             <Typography variant="body2"> {i.LandStatus}</Typography>
@@ -506,76 +408,20 @@ console.log(searchResults);
           <>
             {
             UserType === 'Investor' ?
+           <Box display='flex' justifyContent='space-between' flexDirection='row'>
             <Button size="small" color="primary" onClick={()=>navigate('/investorprofileform')}>
-            Invest on this Land
+            Invest
             </Button>
+              
+            <Button size="small" color="primary" onClick={()=>handleOpenDialog(i)}>
+             View
+            </Button>
+            </Box>
             :
             <Box display='flex' justifyContent='space-between' flexDirection='row'>
-            <Button size="small" color="primary" onClick={handleOpenDialog}>
+            <Button size="small" color="primary" onClick={()=>handleOpenDialog(i)}>
             View
             </Button>
-
-            <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
-            <DialogTitle>{i.LandOwnerId}</DialogTitle>
-            <DialogContent>
-            <Box display="flex" justifyContent="center">
-            <Card sx={{ maxWidth: 600 }}>
-            <CardMedia component="video" height="400" src={`${LandOwnerFiles}${i.VirtualVideo}`} controls />
-            <CardContent>
-            <Stack spacing={1}>
-            <Typography variant="h6" color="#84cb25" fontWeight={600} sx={{marginTop:2}}>Land Information</Typography>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land ID:</Typography>
-            <Typography variant="body2">{i.LandOwnerId}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Longitude:</Typography>
-            <Typography variant="body2"> {i.Longitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Latitude:</Typography>
-            <Typography variant="body2"> {i.Latitude}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Size:</Typography>
-            <Typography variant="body2"> {i.LandSize}</Typography>
-            </Box>
-             <Typography variant="h6" color="#84cb25" fontWeight={600}>Land Owner Information</Typography>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Owner Name:</Typography>
-            <Typography variant="body2"> {i.LandOwnerName}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Owner Address:</Typography>
-            <Typography variant="body2"> {i.LandAddress1}, {i.LandAddress2}, {i.LandCity}, {i.LandState}, {i.LandCountry}  </Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Land Owner Ph:</Typography>
-            <Typography variant="body2"> {i.MobileNum}</Typography>
-            </Box>
-             <Typography variant="h6" color="#84cb25" fontWeight={600}>Project Information</Typography>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Creation Date:</Typography>
-            <Typography variant="body2"> {i.CreationDate}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Project Commence Date:</Typography>
-            <Typography variant="body2"> {i.ProjectCommenceDate}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Status:</Typography>
-            <Typography variant="body2"> {i.LandStatus}</Typography>
-            </Box>
-            <Box display='flex' gap={1} flexDirection='row'>
-            <Typography variant="body2" color="text.secondary" fontWeight={600}>Remarks:</Typography>
-            <Typography variant="body2"> {i.Remarks}</Typography>
-            </Box>
-            </Stack>
-            </CardContent>
-            </Card>
-            </Box>
-            </DialogContent>
-            </Dialog>
 
 
             <Button size="small" color="primary" onClick={()=>movedtoEditPage(i.LandOwnerId)}>
@@ -583,8 +429,8 @@ console.log(searchResults);
             </Button>
             </Box>
             }
-            </>
-)}
+             </>
+              )}
             </CardActions>
             </Card>
         </Grid>

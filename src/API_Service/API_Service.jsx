@@ -85,4 +85,6 @@ const get_user = `${baseApiurl}get_user`;
 
 const get_land_owner = `${baseApiurl}get_land_owner`;
 
-export { get_all_user_profile_type,add_admin,get_state,get_district,get_user,get_land_owner, add_afforestation, add_buyer , add_cri, add_plantation_partner, BuyerFiles, AdminFiles, GOVTFiles, CRIFiles, VVBFiles, PlantationFiles, ProjectDeveloperFiles, ProfilePic, methodGet, add_project_developer, add_vvb, methodPost,  user_sign_in, add_investor, user_sign_up, add_land_owner, get_all_land_owner, LandOwnerFiles, InvestorFiles };
+const get_investor = `${baseApiurl}get_investor`;
+
+export { get_all_user_profile_type,add_admin,get_state,get_investor, get_district,get_user,get_land_owner, add_afforestation, add_buyer , add_cri, add_plantation_partner, BuyerFiles, AdminFiles, GOVTFiles, CRIFiles, VVBFiles, PlantationFiles, ProjectDeveloperFiles, ProfilePic, methodGet, add_project_developer, add_vvb, methodPost,  user_sign_in, add_investor, user_sign_up, add_land_owner, get_all_land_owner, LandOwnerFiles, InvestorFiles };
